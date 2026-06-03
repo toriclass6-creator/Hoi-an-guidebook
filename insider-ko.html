@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#16120D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>호이안 인사이더 가이드 — Class6</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ochre:#C8882A; --ochre-l:#FDF3E0; --ochre-d:#7A4E10;
+  --green:#3D6B4F; --green-l:#EAF2EC;
+  --sand:#F9F6F1; --ink:#16120D; --ink2:#3D3530;
+  --white:#fff; --gray:#7A7068; --gray-l:#F0EBE3; --gray-m:#E2D9CE;
+  --r:12px; --r2:18px;
+  --sh:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+  --sh2:0 2px 8px rgba(0,0,0,.08),0 12px 40px rgba(0,0,0,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans KR',sans-serif;background:var(--sand);color:var(--ink);
+  line-height:1.65;-webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+  word-break:keep-all;
+}
+/* ── LANG SWITCHER ── */
+.lang-bar{
+  background:var(--ink);text-align:center;padding:8px 16px;
+  display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.lang-link{
+  color:rgba(255,255,255,.4);text-decoration:none;
+  font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:20px;
+  transition:all .18s;letter-spacing:.01em;
+}
+.lang-link:hover{color:#fff;background:rgba(255,255,255,.1)}
+.lang-link.active{color:#fff;background:rgba(200,136,42,.7)}
+.lang-sep{color:rgba(255,255,255,.15);font-size:11px}
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:env(safe-area-inset-top) 0 64px;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1563093728-4df07e77e23f?w=1600&q=80') center/cover no-repeat;
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(16,10,4,.92) 0%,rgba(16,10,4,.5) 50%,rgba(16,10,4,.18) 100%);
+}
+.hero-inner{position:relative;z-index:1;max-width:680px;padding:0 28px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(245,200,120,.85);margin-bottom:18px;
+}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:rgba(245,200,120,.5)}
+.hero h1{
+  font-family:'Playfair Display',serif;font-size:clamp(36px,7vw,72px);
+  font-weight:400;line-height:1.06;color:#fff;margin-bottom:14px;
+}
+.hero h1 em{font-style:italic;color:#F5C878}
+.hero-title-ko{
+  font-family:'Noto Sans KR',sans-serif;font-size:clamp(22px,4vw,38px);
+  font-weight:300;color:rgba(255,255,255,.75);margin-top:8px;margin-bottom:14px;
+  line-height:1.3;
+}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.55);max-width:380px;line-height:1.8;margin-bottom:36px;}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--ochre);color:#fff;
+  font-size:14px;font-weight:600;
+  padding:13px 28px;border-radius:50px;text-decoration:none;transition:opacity .2s;
+}
+.hero-cta:hover{opacity:.88}
+.hero-scroll{display:block;margin-top:20px;font-size:11px;font-weight:400;color:rgba(255,255,255,.3);letter-spacing:.05em;}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--ochre);z-index:999;transition:width .1s linear;width:0}
+/* ── NAV ── */
+.nav-wrap{
+  position:sticky;top:0;z-index:200;
+  background:rgba(249,246,241,.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--gray-m);
+}
+.nav-inner{
+  max-width:760px;margin:0 auto;
+  display:flex;gap:2px;padding:8px 16px;
+  overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{
+  flex-shrink:0;background:none;border:none;
+  color:var(--gray);font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:500;
+  padding:7px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .18s;
+}
+.nav-btn:hover{background:var(--gray-l);color:var(--ink)}
+.nav-btn.active{background:var(--ink);color:#fff}
+/* ── MAIN ── */
+.main{max-width:680px;margin:0 auto;padding:0 24px 80px}
+/* ── INTRO ── */
+.intro-box{
+  margin:52px 0 0;padding:32px 28px;
+  background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);
+  position:relative;overflow:hidden;
+}
+.intro-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ochre),#F5C878);}
+.intro-eyebrow{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ochre);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.intro-eyebrow::before{content:'';display:inline-block;width:16px;height:1px;background:var(--ochre)}
+.intro-box h2{font-family:'Noto Sans KR',sans-serif;font-size:21px;font-weight:600;color:var(--ink);margin-bottom:14px;line-height:1.35;}
+.intro-box p{font-size:14px;color:var(--gray);font-weight:300;line-height:1.8;margin-bottom:16px}
+.mistake-row{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.mistake{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--r);font-size:13.5px;line-height:1.6;}
+.mistake.bad{background:#FFF5F5;color:#B71C1C;border-left:2px solid #EF9A9A}
+.mistake.good{background:var(--green-l);color:var(--green);border-left:2px solid #81C784}
+.mistake-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.gems{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.gem{background:var(--ochre-l);color:var(--ochre-d);font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;}
+/* ── SECTION ── */
+.section{padding:52px 0 0;scroll-margin-top:56px}
+.s-eyebrow{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ochre);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.s-eyebrow::before{content:'';display:inline-block;width:18px;height:1px;background:var(--ochre)}
+.s-heading{font-family:'Noto Sans KR',sans-serif;font-size:24px;font-weight:600;color:var(--ink);margin-bottom:6px;line-height:1.3;}
+.s-sub{font-size:14px;color:var(--gray);font-weight:300;margin-bottom:24px;line-height:1.75}
+/* ── ITINERARY ── */
+.iti-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);overflow:hidden;}
+.iti-period{background:var(--ink);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;}
+.iti-period-icon{font-size:20px}
+.iti-period-label{font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:500;}
+.iti-items{padding:6px 0}
+.iti-item{display:flex;align-items:flex-start;gap:12px;padding:13px 20px;border-bottom:1px solid var(--gray-l);}
+.iti-item:last-child{border-bottom:none}
+.iti-dot{width:28px;height:28px;border-radius:50%;background:var(--ochre-l);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:1px;}
+.iti-text{flex:1}
+.iti-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.iti-note{font-size:12.5px;color:var(--gray);font-weight:300;line-height:1.6}
+.iti-divider{border:none;border-top:1px dashed var(--gray-m);margin:0 20px;}
+.days-grid{display:flex;flex-direction:column;gap:16px}
+.day-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);overflow:hidden}
+.day-header{background:linear-gradient(135deg,var(--ink),var(--ink2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;}
+.day-num{font-family:'Playfair Display',serif;font-style:italic;font-size:32px;color:var(--ochre);line-height:1;margin-right:4px;}
+.day-title{font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:500;line-height:1.4}
+.day-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.5);margin-top:3px}
+.day-body{padding:16px 20px}
+.day-body p{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.75;margin-bottom:10px}
+.day-body p:last-child{margin-bottom:0}
+.day-highlights{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.hl{background:var(--gray-l);color:var(--gray);font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;}
+/* ── FOOD ── */
+.food-grid{display:flex;flex-direction:column;gap:16px}
+.food-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .25s,transform .25s;}
+.food-card:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+.food-card-body{padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.food-rank{width:38px;height:38px;border-radius:50%;background:var(--ink);font-family:'Playfair Display',serif;font-style:italic;color:var(--ochre);font-size:18px;font-weight:400;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.food-info{flex:1}
+.food-name{font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:5px}
+.food-desc{font-size:13px;color:var(--gray);font-weight:300;line-height:1.7;margin-bottom:8px}
+.food-where{display:inline-flex;align-items:center;gap:5px;background:var(--ochre-l);color:var(--ochre-d);font-size:12px;font-weight:500;padding:4px 10px;border-radius:20px;}
+.food-unique{display:inline-flex;align-items:center;gap:5px;background:var(--green-l);color:var(--green);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:5px;}
+/* ── LIST ── */
+.list-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);padding:6px 0;}
+.list-item{display:flex;align-items:flex-start;gap:12px;padding:13px 20px;border-bottom:1px solid var(--gray-l);}
+.list-item:last-child{border-bottom:none}
+.list-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.list-info{flex:1}
+.list-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:3px}
+.list-desc{font-size:12.5px;color:var(--gray);font-weight:300;line-height:1.6}
+.medal{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.medal-1{background:#FFF8DC} .medal-2{background:#F0F4F8} .medal-3{background:#FFF3E0}
+/* ── STAR PICK ── */
+.star-pick{background:linear-gradient(135deg,#FFFBF2,#FFF5DC);border:1.5px solid rgba(200,136,42,.25);border-radius:var(--r2);padding:28px 24px;position:relative;overflow:hidden;}
+.star-pick::before{content:'⭐';font-size:80px;position:absolute;right:-10px;top:-10px;opacity:.06;line-height:1;}
+.star-pick h3{font-family:'Noto Sans KR',sans-serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+.star-pick p{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.8;margin-bottom:16px}
+.check-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.check-item{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink2);font-weight:400;}
+.check-item::before{content:'✔';color:var(--green);font-weight:700;font-size:13px;flex-shrink:0;}
+.perfect-for{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px}
+.pf-tag{background:var(--ochre-l);color:var(--ochre-d);font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;}
+/* ── SERVICES ── */
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.service-item{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:16px 14px;display:flex;align-items:flex-start;gap:10px;}
+.service-icon{font-size:22px;flex-shrink:0}
+.service-label{font-size:13px;font-weight:500;color:var(--ink);line-height:1.4}
+/* ── SECRETS ── */
+.secrets-grid{display:flex;flex-direction:column;gap:14px}
+.secret-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);padding:20px;border-left:3px solid var(--ochre);position:relative;overflow:hidden;}
+.secret-card::after{content:'🤫';font-size:48px;position:absolute;right:12px;top:10px;opacity:.07;}
+.secret-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--ochre);margin-bottom:8px;}
+.secret-title{font-family:'Noto Sans KR',sans-serif;font-size:17px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.secret-time{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:8px;margin-bottom:10px;}
+.secret-desc{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.75}
+.secret-desc strong{color:var(--ink);font-weight:500}
+/* ── CTA ── */
+.cta-banner{background:var(--ink);border-radius:var(--r2);padding:32px 28px;text-align:center;margin-top:52px;}
+.cta-banner h2{font-family:'Noto Sans KR',sans-serif;font-size:22px;font-weight:600;color:#fff;margin-bottom:10px;}
+.cta-banner p{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:24px;max-width:380px;margin-left:auto;margin-right:auto;}
+.cta-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;font-size:14px;font-weight:600;padding:14px 30px;border-radius:50px;text-decoration:none;transition:opacity .2s;}
+.cta-wa:hover{opacity:.9}
+.cta-guide-link{display:inline-block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.35);text-decoration:none;transition:color .18s;}
+.cta-guide-link:hover{color:var(--ochre)}
+/* ── FOOTER ── */
+footer{background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:40px 20px calc(32px + env(safe-area-inset-bottom));font-size:12.5px;}
+.ft-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;color:var(--ochre);margin-bottom:4px}
+.ft-tagline{font-size:11px;font-weight:300;letter-spacing:.02em;margin-bottom:20px}
+.ft-divider{width:36px;height:1px;background:rgba(255,255,255,.1);margin:0 auto 20px}
+.ft-links{display:flex;justify-content:center;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+.ft-links a{color:rgba(255,255,255,.3);text-decoration:none;font-size:11.5px;transition:color .18s}
+.ft-links a:hover{color:var(--ochre)}
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .hero{padding:0 0 48px}
+  .hero-inner{padding:0 20px}
+  .hero h1{font-size:36px;margin-bottom:6px}
+  .hero-title-ko{font-size:20px;margin-bottom:12px}
+  .hero-sub{font-size:14px;margin-bottom:28px}
+  .hero-cta{font-size:14px;padding:14px 26px;width:100%;justify-content:center}
+  .nav-inner{padding:6px 12px;gap:4px}
+  .nav-btn{font-size:12px;padding:8px 12px;min-height:36px}
+  .main{padding:0 16px 64px}
+  .intro-box{margin:32px 0 0;padding:22px 18px;border-radius:16px}
+  .intro-box h2{font-size:19px}
+  .intro-box p{font-size:13.5px}
+  .mistake{font-size:13px;padding:11px 13px}
+  .gem{font-size:11.5px;padding:5px 10px}
+  .section{padding:36px 0 0;scroll-margin-top:52px}
+  .s-heading{font-size:21px}
+  .s-sub{font-size:13px;margin-bottom:18px}
+  .iti-period{padding:13px 18px}
+  .iti-period-label{font-size:14px}
+  .iti-item{padding:12px 18px;gap:10px}
+  .iti-dot{width:26px;height:26px;font-size:13px}
+  .iti-name{font-size:13.5px}
+  .iti-note{font-size:12px}
+  .day-header{padding:14px 18px}
+  .day-num{font-size:28px}
+  .day-title{font-size:13.5px}
+  .day-body{padding:14px 18px}
+  .day-body p{font-size:13px}
+  .hl{font-size:10.5px;padding:4px 9px}
+  .food-card-body{padding:16px 16px;gap:12px}
+  .food-rank{width:34px;height:34px;font-size:16px}
+  .food-name{font-size:15px}
+  .food-desc{font-size:12.5px;margin-bottom:7px}
+  .list-item{padding:13px 16px;gap:10px}
+  .list-icon{font-size:19px}
+  .list-name{font-size:13.5px}
+  .list-desc{font-size:12px}
+  .medal{width:26px;height:26px;font-size:14px}
+  .star-pick{padding:22px 18px}
+  .star-pick h3{font-size:18px}
+  .star-pick p{font-size:13px}
+  .check-item{font-size:13px}
+  .pf-tag{font-size:11.5px;padding:5px 12px}
+  .services-grid{gap:8px}
+  .service-item{padding:14px 12px;gap:8px;border-radius:10px}
+  .service-icon{font-size:20px}
+  .service-label{font-size:12.5px}
+  .secret-card{padding:18px 16px}
+  .secret-title{font-size:16px}
+  .secret-time{font-size:12.5px;padding:5px 12px}
+  .secret-desc{font-size:13px}
+  .cta-banner{padding:28px 20px;margin-top:40px;border-radius:16px}
+  .cta-banner h2{font-size:20px}
+  .cta-banner p{font-size:13px;margin-bottom:20px}
+  .cta-wa{font-size:14px;padding:14px 24px;width:100%;justify-content:center}
+  .cta-guide-link{font-size:12px;margin-top:12px}
+}
+
+/* ── MAP LINKS ── */
+a.food-where{text-decoration:none;cursor:pointer}
+a.food-where:hover{opacity:.85}
+.gmap-chip{
+  display:inline-flex;align-items:center;gap:3px;
+  color:var(--gray);font-size:11px;font-weight:500;
+  text-decoration:none;padding:2px 7px;border-radius:6px;
+  background:var(--gray-l);margin-left:6px;
+  transition:background .18s,color .18s;
+  vertical-align:middle;white-space:nowrap;flex-shrink:0;
+}
+.gmap-chip:hover{background:var(--ochre-l);color:var(--ochre-d)}
+
+/* ── OFFLINE BANNER ── */
+.offline-banner{
+  position:fixed;bottom:max(16px, env(safe-area-inset-bottom));
+  left:16px;right:16px;z-index:500;
+  background:var(--ink);color:#fff;
+  border-radius:16px;padding:16px 18px;
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+  display:flex;gap:12px;align-items:flex-start;
+  animation:slideUp .35s cubic-bezier(.22,1,.36,1);
+  max-width:500px;margin:0 auto;
+}
+.offline-banner.hidden{display:none}
+@keyframes slideUp{from{transform:translateY(100px);opacity:0}to{transform:none;opacity:1}}
+.ob-icon{font-size:24px;flex-shrink:0;margin-top:1px}
+.ob-body{flex:1}
+.ob-title{font-size:13px;font-weight:600;margin-bottom:4px;color:#fff}
+.ob-text{font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.55}
+.ob-text strong{color:rgba(255,255,255,.9);font-weight:500}
+.ob-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ob-dismiss{
+  background:rgba(255,255,255,.12);color:#fff;border:none;
+  font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;
+  cursor:pointer;font-family:inherit;transition:background .18s;
+}
+.ob-dismiss:hover{background:rgba(255,255,255,.2)}
+.ob-cached{
+  background:var(--ochre);color:#fff;border:none;
+  font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;
+  cursor:pointer;font-family:inherit;display:none;transition:background .18s;
+}
+.ob-cached.show{display:block}
+.ob-cached:hover{opacity:.88}
+
+
+/* ── NAV LANG SWITCHER ── */
+.nav-wrap{display:flex;align-items:stretch}
+.nav-inner{flex:1;min-width:0}
+.nav-lang{
+  display:flex;align-items:center;gap:1px;
+  padding:6px 10px 6px 8px;
+  border-left:1px solid var(--gray-m);
+  flex-shrink:0;
+}
+.nl-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:6px;
+  font-size:17px;text-decoration:none;
+  transition:background .18s;opacity:.5;
+  flex-shrink:0;
+}
+.nl-btn:hover{background:var(--gray-l);opacity:1}
+.nl-btn.active{background:var(--gray-l);opacity:1}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- OFFLINE BANNER -->
+<div id="offlineBanner" class="offline-banner hidden">
+  <div class="ob-icon">📲</div>
+  <div class="ob-body">
+    <div class="ob-title">오프라인으로 저장하기</div>
+    <div class="ob-text">이 가이드는 인터넷 없이도 작동합니다. <strong>공유 → 홈 화면에 추가</strong>(iOS) 또는 <strong>앱 설치</strong>(Android)를 탭하세요.</div>
+    <div class="ob-actions">
+      <button class="ob-dismiss" id="obDismiss">확인</button>
+      <button class="ob-cached" id="obCached">✓ 오프라인 저장 완료</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <a class="lang-link" href="insider.html">🇬🇧 English</a>
+  <span class="lang-sep">·</span>
+  <a class="lang-link" href="insider-fr.html">🇫🇷 Français</a>
+  <span class="lang-sep">·</span>
+  <a class="lang-link active" href="insider-ko.html">🇰🇷 한국어</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">로컬이 큐레이션 · Class6 · 2026</div>
+    <h1>Hội An<br><em>Insider</em></h1>
+    <div class="hero-title-ko">호이안 인사이더 가이드</div>
+    <p class="hero-sub">관광객들이 놓치는 곳. 중요한 타이밍. 기억에 남을 단 하나의 경험.</p>
+    <a class="hero-cta" href="#start">시작하기 →</a>
+    <span class="hero-scroll">↓ 스크롤하여 탐색</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="navTo('start',this)">📖 시작하기</button>
+    <button class="nav-btn" onclick="navTo('24h',this)">⏳ 24시간</button>
+    <button class="nav-btn" onclick="navTo('3days',this)">📅 3일</button>
+    <button class="nav-btn" onclick="navTo('food',this)">🍜 음식</button>
+    <button class="nav-btn" onclick="navTo('cafes',this)">☕ 카페</button>
+    <button class="nav-btn" onclick="navTo('sunset',this)">🌅 일몰</button>
+    <button class="nav-btn" onclick="navTo('experiences',this)">✨ 추천</button>
+    <button class="nav-btn" onclick="navTo('secrets',this)">🤫 비밀</button>
+  </div>
+  <div class="nav-lang">
+    <a class="nl-btn" href="insider.html" title="🇬🇧">🇬🇧</a>
+    <a class="nl-btn" href="insider-fr.html" title="🇫🇷">🇫🇷</a>
+    <a class="nl-btn active" href="insider-ko.html" title="🇰🇷">🇰🇷</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- INTRO -->
+  <div id="start" class="intro-box" style="scroll-margin-top:56px">
+    <div class="intro-eyebrow">탐험 시작 전에</div>
+    <h2>호이안이 처음이신가요?</h2>
+    <p>대부분의 여행객들이 같은 실수를 합니다 — 진짜 호이안을 보지 못한 채 떠납니다.</p>
+    <div class="mistake-row">
+      <div class="mistake bad">
+        <div class="mistake-icon">❌</div>
+        <div>하루 종일 구시가지 안에서만 시간 보내기</div>
+      </div>
+      <div class="mistake good">
+        <div class="mistake-icon">✓</div>
+        <div>호이안의 진짜 매력은 사실 이곳에 있습니다…</div>
+      </div>
+    </div>
+    <div class="gems">
+      <span class="gem">🌅 이른 아침 시장</span>
+      <span class="gem">☕ 숨겨진 카페</span>
+      <span class="gem">🌾 논밭</span>
+      <span class="gem">🥥 야자수 숲</span>
+      <span class="gem">🍜 현지 음식 노점</span>
+      <span class="gem">🌇 해변 일몰</span>
+    </div>
+    <p style="margin-top:20px;font-size:14px;color:var(--ink2);font-weight:300">이 가이드가 호이안을 현지인처럼 경험할 수 있도록 도와드립니다.</p>
+  </div>
+
+  <!-- 24H -->
+  <div id="24h" class="section">
+    <div class="s-eyebrow">짧은 방문</div>
+    <div class="s-heading">⏳ 24시간밖에 없다면</div>
+    <div class="s-sub">완벽한 하루 — 첫 번째 커피부터 마지막 등불까지.</div>
+    <div class="iti-card">
+      <div class="iti-period">
+        <div class="iti-period-icon">🌤</div>
+        <div class="iti-period-label">오전</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">☕</div>
+          <div class="iti-text">
+            <div class="iti-name">Sunny Coffee Corner<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Sunny+Coffee+Corner+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">조용하고 현지스럽고 식물이 가득 — 관광지 느낌 전혀 없음</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🚲</div>
+          <div class="iti-text">
+            <div class="iti-name">논밭 사이클링</div>
+            <div class="iti-note">오전 9시 전이 최고 — 빛이 부드럽고 도로가 한적함</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🥬</div>
+          <div class="iti-text">
+            <div class="iti-name">Trà Quế 채소 마을<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Tra+Que+Vegetable+Village+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">텃밭 사이를 걷고 농부들의 일하는 모습 관찰</div>
+          </div>
+        </div>
+      </div>
+      <hr class="iti-divider">
+      <div class="iti-period" style="background:var(--ochre-d)">
+        <div class="iti-period-icon">☀️</div>
+        <div class="iti-period-label">점심</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">🍜</div>
+          <div class="iti-text">
+            <div class="iti-name">Cao Lầu Thanh<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Quan+Cao+Lau+Thanh+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">호이안의 대표 음식 — 이곳에서만 맛볼 수 있음</div>
+          </div>
+        </div>
+      </div>
+      <hr class="iti-divider">
+      <div class="iti-period" style="background:var(--green)">
+        <div class="iti-period-icon">🏖</div>
+        <div class="iti-period-label">오후</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">🏖</div>
+          <div class="iti-text">
+            <div class="iti-name">안방 해변 (An Bàng Beach)<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">오후 4시쯤 도착 — 시원하고 한적하며 황금빛 시간이 다가옴</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🍹</div>
+          <div class="iti-text">
+            <div class="iti-name">Seascape에서 일몰 감상<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Seascape+An+Bang+Hoi+An+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">태양이 바다로 지는 동안 모래사장에서 칵테일</div>
+          </div>
+        </div>
+      </div>
+      <hr class="iti-divider">
+      <div class="iti-period" style="background:#1A1018">
+        <div class="iti-period-icon">🏮</div>
+        <div class="iti-period-label">저녁</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">🏮</div>
+          <div class="iti-text">
+            <div class="iti-name">등불 빛 아래의 구시가지<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Ancient+Town" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">오후 7시 이후 거리가 빛납니다 — 완전히 다른 분위기</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🚣</div>
+          <div class="iti-text">
+            <div class="iti-name">호아이강 등불 배</div>
+            <div class="iti-note">행운을 위해 연꽃 등불 띄우기 — 호이안의 전통 의식</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🎭</div>
+          <div class="iti-text">
+            <div class="iti-name">Memories Show<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Memories+Show+Island" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">500명 이상의 공연자, 화려한 조명 — 사전 예약 필수</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 DAYS -->
+  <div id="3days" class="section">
+    <div class="s-eyebrow">완전한 경험</div>
+    <div class="s-heading">📅 3일이 있다면</div>
+    <div class="s-sub">완벽한 리듬 — 매일이 전날을 바탕으로 쌓입니다.</div>
+    <div class="days-grid">
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-num">1</div>
+          <div>
+            <div class="day-title">구시가지 + 음식 투어</div>
+            <div class="day-sub">도시를 파악하고, 모든 것을 먹어보세요</div>
+          </div>
+        </div>
+        <div class="day-body">
+          <p>오전 6시 30분에 시작하세요 — 구시가지가 거의 비어있습니다. 일본 다리를 걷고, 노란 벽을 촬영하고, 아침 시장을 찾아보세요. 9시쯤이면 단체 관광객이 몰려오기 전에 도시의 진짜 모습을 느낄 수 있습니다.</p>
+          <p>오후: 올드타운 음식 투어. 퍼엉(Phượng)의 반미, 탄(Thanh)의 까오러우, 시마푸(Xi Ma Phụ)의 흑임자 단팥죽으로 마무리.</p>
+          <p>저녁: 강에서 등불 배, 그리고 거리가 등불로 가득 찰 때 여유로운 산책.</p>
+          <div class="day-highlights">
+            <span class="hl">🏮 일본 다리 6:30am</span>
+            <span class="hl">🍜 Cao Lầu Thanh</span>
+            <span class="hl">🥖 Bánh Mì Phượng</span>
+            <span class="hl">🚣 등불 배</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-num">2</div>
+          <div>
+            <div class="day-title">해변 + 야자수 숲 + 요리 수업</div>
+            <div class="day-sub">호이안 시골의 정수</div>
+          </div>
+        </div>
+        <div class="day-body">
+          <p>Cocolocal에서 오전 요리 수업 — 시장 방문, 농장 재료 수확, 직접 요리. 정오쯤 완성된 식사와 새로운 기술을 갖고 마무리.</p>
+          <p>오후: 야자수 수로를 통과하는 바구니 배 체험, 그 다음 안방 해변으로. Seascape에서 일몰 칵테일까지.</p>
+          <div class="day-highlights">
+            <span class="hl">🍳 Cocolocal 요리 수업</span>
+            <span class="hl">🥥 야자수 바구니 배</span>
+            <span class="hl">🏖 안방 해변</span>
+            <span class="hl">🌅 일몰 칵테일</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-num">3</div>
+          <div>
+            <div class="day-title">미선 유적지 또는 참섬</div>
+            <div class="day-sub">하나만 선택 — 둘 다 하루가 꽉 찹니다</div>
+          </div>
+        </div>
+        <div class="day-body">
+          <p><strong style="color:var(--ink)">미선 (My Sơn):</strong> 정글 속에 숨겨진 참파 왕국의 고대 힌두 사원. 호이안에서 약 1시간. 일찍 가서 유적 사이로 비치는 일출 빛을 경험하세요.</p>
+          <p><strong style="color:var(--ink)">참섬 (Cham Island):</strong> 맑은 물, 산호초, 스노클링, 섬에서 즐기는 신선한 해산물 점심. 하루 보트 여행 — 맑고 잔잔한 날에 최고.</p>
+          <div class="day-highlights">
+            <span class="hl">🏛 미선 — 정글 사원</span>
+            <span class="hl">🏝 참섬 — 산호초</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD -->
+  <div id="food" class="section">
+    <div class="s-eyebrow">현지인처럼 먹기</div>
+    <div class="s-heading">🍜 꼭 먹어야 할 음식 TOP 5</div>
+    <div class="s-sub">많은 여행객들이 호이안의 대표 음식을 먹지 않고 떠납니다. 그런 실수를 하지 마세요.</div>
+    <div class="food-grid">
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">1</div>
+          <div class="food-info">
+            <div class="food-name">까오러우 (Cao Lầu)</div>
+            <div class="food-desc">쫄깃한 굵은 면, 차슈 돼지고기, 바삭한 튀각, 신선한 허브. 특정 지역 우물물로 만들어 이곳 밖에서는 같은 맛을 낼 수 없습니다.</div>
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">
+              <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Quan+Cao+Lau+Thanh+Hoi+An" target="_blank">📍 Cao Lầu Thanh</a>
+              <span class="food-unique">호이안에서만</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">2</div>
+          <div class="food-info">
+            <div class="food-name">화이트 로즈 만두 (Bánh Bao Vạc)</div>
+            <div class="food-desc">새우를 넣은 흰 장미 모양의 섬세한 찐 쌀 종이 만두. 부드럽고, 섬세하고, 아름답습니다.</div>
+            <span class="food-unique">호이안 특산품</span>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">3</div>
+          <div class="food-info">
+            <div class="food-name">반미 (Bánh Mì)</div>
+            <div class="food-desc">호이안 버전은 다릅니다 — 바삭한 바게트, 풍성한 재료, 독특한 소스. 앤서니 부르댕이 세계 최고라고 말했습니다.</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Banh+Mi+Phuong+2B+Phan+Chau+Trinh+Hoi+An" target="_blank">📍 Bánh Mì Phượng</a>
+              <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Madam+Khanh+Banh+Mi+Queen+Hoi+An" target="_blank">📍 Madam Khánh</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">4</div>
+          <div class="food-info">
+            <div class="food-name">흑임자 단팥죽 (Chè Xi Ma Phụ)</div>
+            <div class="food-desc">진하고 부드러우며 약간 허브향 — 대부분의 관광객이 존재조차 모르고 지나치는 호이안 전통 디저트.</div>
+            <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Che+Xi+Ma+Phu+black+sesame+Hoi+An" target="_blank">📍 Xí Mà Phụ</a>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">5</div>
+          <div class="food-info">
+            <div class="food-name">껌가 — 치킨 라이스 (Cơm Gà)</div>
+            <div class="food-desc">관광객들이 끊임없이 놓치는 현지 클래식. 노란 강황밥, 찢은 닭고기, 신선한 허브와 소스. 단순하지만 완벽합니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAFES -->
+  <div id="cafes" class="section">
+    <div class="s-eyebrow">어디서 앉을까</div>
+    <div class="s-heading">☕ 구시가지를 벗어날 가치 있는 카페</div>
+    <div class="s-sub">호이안 최고의 커피 경험은 관광 중심지 밖에 있습니다.</div>
+    <div class="list-card">
+      <div class="list-item">
+        <div class="list-icon">☕</div>
+        <div class="list-info">
+          <div class="list-name">Sunny Coffee Corner<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Sunny+Coffee+Corner+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">커피 애호가를 위한 곳. 조용하고 식물이 가득하며 현지스럽습니다. 베트남 에그 커피 필수 — 위에는 진한 커스터드, 아래는 강한 커피.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">🌿</div>
+        <div class="list-info">
+          <div class="list-name">Rao Café<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Rao+Cafe+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">정원 애호가를 위한 곳. 외곽의 평화로운 채소밭 안에 자리합니다. 판단 코코넛 음료, 여유로운 아침 분위기.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">🌾</div>
+        <div class="list-info">
+          <div class="list-name">Coffee Xóm Chiêu<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Coffee+Xom+Chieu+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">논 뷰를 위한 곳. 시원한 정원 좌석이 있는 시골 카페. 이 지역 최고의 자전거 중간 기착지.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUNSET -->
+  <div id="sunset" class="section">
+    <div class="s-eyebrow">하루의 끝</div>
+    <div class="s-heading">🌅 최고의 일몰 명소</div>
+    <div class="s-sub">순위입니다. 차이가 중요합니다.</div>
+    <div class="list-card">
+      <div class="list-item">
+        <div class="medal medal-1">🥇</div>
+        <div class="list-info">
+          <div class="list-name">Seascape An Bàng<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Seascape+An+Bang+Hoi+An+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">무료 선베드가 있는 해변 식사와 칵테일. 호이안에서 칵테일을 들고 즐기는 최고의 일몰.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="medal medal-2">🥈</div>
+        <div class="list-info">
+          <div class="list-name">안방 해변 (An Bàng Beach)<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">단순하고 아름답습니다. 해안선을 걷고, 돌아오는 어선을 바라보세요. 입장권 불필요.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="medal medal-3">🥉</div>
+        <div class="list-info">
+          <div class="list-name">Rooftop Moments<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Moments+Hoi+An+Cafe+Rooftop" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">위에서 바라보는 구시가지 뷰, 전경의 부겐빌레아, 아래에서 켜지는 등불들.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCES -->
+  <div id="experiences" class="section">
+    <div class="s-eyebrow">엄선된 추천</div>
+    <div class="s-heading">✨ 최고의 경험</div>
+    <div style="margin-bottom:28px">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px">👨‍👩‍👧 어린이를 동반한 가족을 위해</div>
+      <div class="list-card">
+        <div class="list-item"><div class="list-icon">🥥</div><div class="list-info"><div class="list-name">야자수 바구니 배 체험</div><div class="list-desc">현지 가이드가 야자수 사이로 돌려주는 둥근 바구니 배 — 아이들이 정말 좋아합니다.</div></div></div>
+        <div class="list-item"><div class="list-icon">🍳</div><div class="list-info"><div class="list-name">요리 수업</div><div class="list-desc">직접 체험하고, 재미있고, 함께하는 식사로 마무리.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏺</div><div class="list-info"><div class="list-name">탄하 도자기 마을 (Thanh Hà)<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Thanh+Ha+Pottery+Village+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">물레에서 도자기 만들기 체험 — 모든 연령층에게 진정으로 재미있습니다.</div></div></div>
+        <div class="list-item"><div class="list-icon">🎭</div><div class="list-info"><div class="list-name">Memories Show<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Memories+Show+Island" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">화려하고 따라가기 쉬움 — 언어 장벽 없음.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏖</div><div class="list-info"><div class="list-name">안방 해변<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">깨끗하고 얕으며, 20분마다 간식이 필요한 경우를 위해 레스토랑이 줄지어 있습니다.</div></div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:28px">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px">❤️ 커플을 위해</div>
+      <div class="list-card">
+        <div class="list-item"><div class="list-icon">🌅</div><div class="list-info"><div class="list-name">해변 일몰 디너<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Seascape+An+Bang+Hoi+An+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Seascape 또는 Soul Kitchen — 부드러운 빛, 칵테일, 배경의 파도 소리.</div></div></div>
+        <div class="list-item"><div class="list-icon">🚣</div><div class="list-info"><div class="list-name">등불 배 체험</div><div class="list-desc">황혼 무렵 강에 등불을 띄우세요. 진정한 로맨스.</div></div></div>
+        <div class="list-item"><div class="list-icon">🍷</div><div class="list-info"><div class="list-name">강변 다이닝<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Morning+Glory+Signature+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Morning Glory Signature — 발코니 테이블, 강 전망, 고급 베트남 음식.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏝</div><div class="list-info"><div class="list-name">참섬 당일 여행<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Cu+Lao+Cham+Island+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">프라이빗한 느낌의 탈출 — 스노클링, 수영, 섬에서 즐기는 신선한 해산물 점심.</div></div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:28px">
+      <div style="font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:14px">📸 가장 인스타그래머블한 명소</div>
+      <div class="list-card">
+        <div class="list-item"><div class="list-icon">🌉</div><div class="list-info"><div class="list-name">일본 다리 (Chùa Cầu)<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Japanese+Covered+Bridge+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">빈 거리와 부드러운 황금빛 빛을 위해 오전 6:30–7시.</div></div></div>
+        <div class="list-item"><div class="list-icon">🟡</div><div class="list-info"><div class="list-name">노란 벽 — 구시가지<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Ancient+Town" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">쩐푸(Trần Phú) 거리의 좁은 골목 어디든. 아침이 최고입니다.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏖</div><div class="list-info"><div class="list-name">안방 해변<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">일출 또는 황금빛 시간 — 색감이 환상적입니다.</div></div></div>
+        <div class="list-item"><div class="list-icon">🌾</div><div class="list-info"><div class="list-name">Trà Quế 채소밭<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Tra+Que+Vegetable+Village+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">채소밭 위의 아침 안개 — 일찍 자전거로 나가세요.</div></div></div>
+        <div class="list-item"><div class="list-icon">🌿</div><div class="list-info"><div class="list-name">Rao Café<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Rao+Cafe+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">정원 테이블, 얼룩덜룩한 빛, 판단 음료를 손에.</div></div></div>
+        <div class="list-item"><div class="list-icon">🥥</div><div class="list-info"><div class="list-name">야자수 숲</div><div class="list-desc">반사되는 물 위를 지나는 바구니 배 — 사진 마법.</div></div></div>
+      </div>
+    </div>
+    <div class="star-pick">
+      <div class="s-eyebrow" style="margin-bottom:10px">저희의 #1 추천</div>
+      <h3>Cocolocal 팜 쿠킹 클래스 <a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Cocolocal+Farm+Cooking+Class+Hoi+An" target="_blank">🗺 Map</a></h3>
+      <p>호이안에서 단 하나의 액티비티만 추천할 수 있다면, 바로 이것입니다. 단순한 요리 수업이 아닙니다 — 현지 가족의 삶 속에서 보내는 아침.</p>
+      <div class="check-list">
+        <div class="check-item">현지 가이드와 함께하는 시장 방문</div>
+        <div class="check-item">농장에서 신선한 재료 수확</div>
+        <div class="check-item">야자수 마을을 지나는 배</div>
+        <div class="check-item">진짜 가족과 함께하는 요리 체험</div>
+        <div class="check-item">직접 만든 음식 먹기 — 함께</div>
+      </div>
+      <div style="font-size:12.5px;color:var(--gray);margin-bottom:14px;font-weight:300">이런 분들에게 완벽:</div>
+      <div class="perfect-for">
+        <span class="pf-tag">커플</span>
+        <span class="pf-tag">가족</span>
+        <span class="pf-tag">음식 애호가</span>
+        <span class="pf-tag">혼자 여행하는 분</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="section">
+    <div class="s-eyebrow">저희가 도와드립니다</div>
+    <div class="s-heading">🚗 필요한 것이 있으신가요?</div>
+    <div class="s-sub">WhatsApp으로 메시지만 보내주세요 — 나머지는 저희가 처리합니다.</div>
+    <div class="services-grid">
+      <div class="service-item"><div class="service-icon">✈️</div><div class="service-label">공항 픽업 & 샌딩</div></div>
+      <div class="service-item"><div class="service-icon">🚗</div><div class="service-label">전용 기사</div></div>
+      <div class="service-item"><div class="service-icon">🏝</div><div class="service-label">참섬 투어</div></div>
+      <div class="service-item"><div class="service-icon">🥥</div><div class="service-label">야자수 숲 투어</div></div>
+      <div class="service-item"><div class="service-icon">🍳</div><div class="service-label">요리 수업</div></div>
+      <div class="service-item"><div class="service-icon">👨‍🍳</div><div class="service-label">개인 셰프</div></div>
+      <div class="service-item"><div class="service-icon">💆</div><div class="service-label">스파 트리트먼트</div></div>
+      <div class="service-item"><div class="service-icon">✂️</div><div class="service-label">맞춤 의류 예약</div></div>
+    </div>
+  </div>
+
+  <!-- SECRETS -->
+  <div id="secrets" class="section">
+    <div class="s-eyebrow">저희만의 팁</div>
+    <div class="s-heading">🤫 현지인 비밀</div>
+    <div class="s-sub">손님이 도착했을 때 알려드리는 것들 — 어디에도 공개되지 않은 정보.</div>
+    <div class="secrets-grid">
+      <div class="secret-card">
+        <div class="secret-label">구시가지</div>
+        <div class="secret-title">구시가지 산책 최적 시간</div>
+        <div class="secret-time">⏰ 오전 6:00 – 8:00</div>
+        <div class="secret-desc">거의 비어있는 거리. 시원한 날씨. 최고의 사진. 오전 9시쯤 단체 관광객이 도착하면 마법이 사라집니다. <strong>알람을 맞추세요.</strong></div>
+      </div>
+      <div class="secret-card">
+        <div class="secret-label">안방 해변</div>
+        <div class="secret-title">해변 최적 시간</div>
+        <div class="secret-time">🌅 오후 4:00 – 6:00</div>
+        <div class="secret-desc">한낮의 더위는 완전히 피하세요. 오후 4시의 빛은 사진에 완벽하고, 바람이 살아나며, 일몰 칵테일 타임이 정확히 5시에 시작됩니다.</div>
+      </div>
+      <div class="secret-card">
+        <div class="secret-label">쇼핑</div>
+        <div class="secret-title">맞춤 의류 팁</div>
+        <div class="secret-desc">마지막 날이 아닌 <strong>첫째 날</strong>에 테일러를 방문하세요. 출발 전 피팅에 48–72시간이 필요합니다. 참고 사진을 가져오세요. <strong>쿠폰은 저희에게 문의하세요.</strong></div>
+      </div>
+      <div class="secret-card">
+        <div class="secret-label">커피</div>
+        <div class="secret-title">에그 커피는 필수</div>
+        <div class="secret-desc">베트남 에그 커피 — 강한 커피 위에 진한 달걀노른자 커스터드. 이름은 낯설지만 맛은 잊을 수 없습니다. 저희가 가장 좋아하는 곳: <strong>📍 Rao Café</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <h2>저희는 하루 종일 여기 있습니다.</h2>
+    <p>질문, 추천, 예약 — 언제든지 메시지를 보내주세요. 빠르게 답변드립니다.</p>
+    <a class="cta-wa" href="https://wa.me/84904885502">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      WhatsApp · +84 904 885 502
+    </a>
+    <br>
+    <a class="cta-guide-link" href="index.html">지도가 포함된 전체 디렉토리 → 레스토랑, 카페, 액티비티 &amp; 빌라</a>
+  </div>
+
+</div><!-- /main -->
+
+<footer>
+  <div class="ft-logo">Class6</div>
+  <div class="ft-tagline">프라이빗 빌라 관리 · Hội An &amp; Đà Nẵng</div>
+  <div class="ft-divider"></div>
+  <div class="ft-links">
+    <a href="https://villaclass6.netlify.app/">웹사이트</a>
+    <a href="index.html">전체 가이드북</a>
+    <a href="https://wa.me/84904885502">WhatsApp</a>
+    <a href="https://www.airbnb.com.vn/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F6754607">Airbnb 가이드</a>
+  </div>
+  <div style="font-size:10.5px;color:rgba(255,255,255,.15);letter-spacing:.04em;text-transform:uppercase">호이안 인사이더 가이드 2026 · Class6</div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+function navTo(id, btn) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+const ids = ['start','24h','3days','food','cafes','sunset','experiences','secrets'];
+const btns = document.querySelectorAll('.nav-btn');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = ids.indexOf(e.target.id);
+      if (i > -1) btns.forEach((b, j) => b.classList.toggle('active', i === j));
+    }
+  });
+}, { rootMargin: '-25% 0px -65% 0px' });
+ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(reg => {
+        // When a new SW is waiting, refresh to get latest
+        reg.addEventListener('updatefound', () => {
+          const sw = reg.installing;
+          sw.addEventListener('statechange', () => {
+            if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+              sw.postMessage({ type: 'SKIP_WAITING' });
+              window.location.reload();
+            }
+          });
+        });
+      });
+  });
+}
+</script>
+<script>
+(function(){
+  const KEY = 'ob_dismissed_v1';
+  if (localStorage.getItem(KEY)) return;
+
+  const banner = document.getElementById('offlineBanner');
+  if (!banner) return;
+  banner.classList.remove('hidden');
+
+  document.getElementById('obDismiss').addEventListener('click', () => {
+    banner.classList.add('hidden');
+    localStorage.setItem(KEY, '1');
+  });
+
+  // Show "Saved!" once SW has cached pages
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(() => {
+      const btn = document.getElementById('obCached');
+      if (btn) btn.classList.add('show');
+    });
+  }
+})();
+</script>
+</body>
+</html>

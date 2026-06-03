@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#16120D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Guide Insider Hội An — Class6</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ochre:#C8882A; --ochre-l:#FDF3E0; --ochre-d:#7A4E10;
+  --green:#3D6B4F; --green-l:#EAF2EC;
+  --sand:#F9F6F1; --ink:#16120D; --ink2:#3D3530;
+  --white:#fff; --gray:#7A7068; --gray-l:#F0EBE3; --gray-m:#E2D9CE;
+  --r:12px; --r2:18px;
+  --sh:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+  --sh2:0 2px 8px rgba(0,0,0,.08),0 12px 40px rgba(0,0,0,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;background:var(--sand);color:var(--ink);
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+/* ── LANG SWITCHER ── */
+.lang-bar{
+  background:var(--ink);text-align:center;padding:8px 16px;
+  display:flex;justify-content:center;align-items:center;gap:6px;flex-wrap:wrap;
+}
+.lang-link{
+  color:rgba(255,255,255,.4);text-decoration:none;
+  font-size:11.5px;font-weight:500;padding:4px 10px;border-radius:20px;
+  transition:all .18s;letter-spacing:.02em;
+}
+.lang-link:hover{color:#fff;background:rgba(255,255,255,.1)}
+.lang-link.active{color:#fff;background:rgba(200,136,42,.7)}
+.lang-sep{color:rgba(255,255,255,.15);font-size:11px}
+/* ── HERO ── */
+.hero{
+  position:relative;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:env(safe-area-inset-top) 0 64px;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1563093728-4df07e77e23f?w=1600&q=80') center/cover no-repeat;
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(16,10,4,.92) 0%,rgba(16,10,4,.5) 50%,rgba(16,10,4,.18) 100%);
+}
+.hero-inner{position:relative;z-index:1;max-width:680px;padding:0 28px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(245,200,120,.85);margin-bottom:18px;
+}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:rgba(245,200,120,.5)}
+.hero h1{
+  font-family:'Playfair Display',serif;font-size:clamp(36px,7vw,72px);
+  font-weight:400;line-height:1.06;color:#fff;margin-bottom:14px;
+}
+.hero h1 em{font-style:italic;color:#F5C878}
+.hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.55);max-width:380px;line-height:1.75;margin-bottom:36px;}
+.hero-cta{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--ochre);color:#fff;
+  font-size:13px;font-weight:600;letter-spacing:.04em;
+  padding:13px 28px;border-radius:50px;text-decoration:none;transition:opacity .2s;
+}
+.hero-cta:hover{opacity:.88}
+.hero-scroll{display:block;margin-top:20px;font-size:11px;font-weight:400;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--ochre);z-index:999;transition:width .1s linear;width:0}
+/* ── NAV ── */
+.nav-wrap{
+  position:sticky;top:0;z-index:200;
+  background:rgba(249,246,241,.97);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--gray-m);
+}
+.nav-inner{
+  max-width:760px;margin:0 auto;
+  display:flex;gap:2px;padding:8px 16px;
+  overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-btn{
+  flex-shrink:0;background:none;border:none;
+  color:var(--gray);font-size:12px;font-weight:500;
+  padding:7px 14px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .18s;
+}
+.nav-btn:hover{background:var(--gray-l);color:var(--ink)}
+.nav-btn.active{background:var(--ink);color:#fff}
+/* ── MAIN ── */
+.main{max-width:680px;margin:0 auto;padding:0 24px 80px}
+/* ── INTRO ── */
+.intro-box{
+  margin:52px 0 0;padding:32px 28px;
+  background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);
+  position:relative;overflow:hidden;
+}
+.intro-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ochre),#F5C878);}
+.intro-eyebrow{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--ochre);margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.intro-eyebrow::before{content:'';display:inline-block;width:16px;height:1px;background:var(--ochre)}
+.intro-box h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);margin-bottom:14px;line-height:1.25;}
+.intro-box p{font-size:14.5px;color:var(--gray);font-weight:300;line-height:1.75;margin-bottom:16px}
+.mistake-row{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.mistake{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:var(--r);font-size:13.5px;line-height:1.5;}
+.mistake.bad{background:#FFF5F5;color:#B71C1C;border-left:2px solid #EF9A9A}
+.mistake.good{background:var(--green-l);color:var(--green);border-left:2px solid #81C784}
+.mistake-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.gems{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.gem{background:var(--ochre-l);color:var(--ochre-d);font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;}
+/* ── SECTION ── */
+.section{padding:52px 0 0;scroll-margin-top:56px}
+.s-eyebrow{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--ochre);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.s-eyebrow::before{content:'';display:inline-block;width:18px;height:1px;background:var(--ochre)}
+.s-heading{font-family:'Playfair Display',serif;font-size:26px;color:var(--ink);margin-bottom:6px;line-height:1.2;}
+.s-sub{font-size:14px;color:var(--gray);font-weight:300;margin-bottom:24px;line-height:1.65}
+/* ── ITINERARY ── */
+.iti-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);overflow:hidden;}
+.iti-period{background:var(--ink);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:10px;}
+.iti-period-icon{font-size:20px}
+.iti-period-label{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;}
+.iti-items{padding:6px 0}
+.iti-item{display:flex;align-items:flex-start;gap:12px;padding:13px 20px;border-bottom:1px solid var(--gray-l);}
+.iti-item:last-child{border-bottom:none}
+.iti-dot{width:28px;height:28px;border-radius:50%;background:var(--ochre-l);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:1px;}
+.iti-text{flex:1}
+.iti-name{font-size:14.5px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.iti-note{font-size:12.5px;color:var(--gray);font-weight:300;line-height:1.55}
+.iti-divider{border:none;border-top:1px dashed var(--gray-m);margin:0 20px;}
+.days-grid{display:flex;flex-direction:column;gap:16px}
+.day-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);overflow:hidden}
+.day-header{background:linear-gradient(135deg,var(--ink),var(--ink2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;}
+.day-num{font-family:'Playfair Display',serif;font-style:italic;font-size:32px;color:var(--ochre);line-height:1;margin-right:4px;}
+.day-title{font-family:'Playfair Display',serif;font-size:15px;font-weight:400;line-height:1.3}
+.day-sub{font-size:11px;font-weight:300;color:rgba(255,255,255,.5);margin-top:2px}
+.day-body{padding:16px 20px}
+.day-body p{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.7;margin-bottom:10px}
+.day-body p:last-child{margin-bottom:0}
+.day-highlights{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.hl{background:var(--gray-l);color:var(--gray);font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;}
+/* ── FOOD ── */
+.food-grid{display:flex;flex-direction:column;gap:16px}
+.food-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);overflow:hidden;transition:box-shadow .25s,transform .25s;}
+.food-card:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+.food-card-body{padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.food-rank{width:38px;height:38px;border-radius:50%;background:var(--ink);font-family:'Playfair Display',serif;font-style:italic;color:var(--ochre);font-size:18px;font-weight:400;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.food-info{flex:1}
+.food-name{font-family:'Playfair Display',serif;font-size:17px;color:var(--ink);margin-bottom:4px}
+.food-desc{font-size:13px;color:var(--gray);font-weight:300;line-height:1.65;margin-bottom:8px}
+.food-where{display:inline-flex;align-items:center;gap:5px;background:var(--ochre-l);color:var(--ochre-d);font-size:12px;font-weight:500;padding:4px 10px;border-radius:20px;}
+.food-unique{display:inline-flex;align-items:center;gap:5px;background:var(--green-l);color:var(--green);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-left:5px;letter-spacing:.02em;}
+/* ── LIST ── */
+.list-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);padding:6px 0;}
+.list-item{display:flex;align-items:flex-start;gap:12px;padding:13px 20px;border-bottom:1px solid var(--gray-l);}
+.list-item:last-child{border-bottom:none}
+.list-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.list-info{flex:1}
+.list-name{font-size:14.5px;font-weight:500;color:var(--ink);margin-bottom:2px}
+.list-desc{font-size:12.5px;color:var(--gray);font-weight:300;line-height:1.55}
+.medal{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.medal-1{background:#FFF8DC} .medal-2{background:#F0F4F8} .medal-3{background:#FFF3E0}
+/* ── STAR PICK ── */
+.star-pick{background:linear-gradient(135deg,#FFFBF2,#FFF5DC);border:1.5px solid rgba(200,136,42,.25);border-radius:var(--r2);padding:28px 24px;position:relative;overflow:hidden;}
+.star-pick::before{content:'⭐';font-size:80px;position:absolute;right:-10px;top:-10px;opacity:.06;line-height:1;}
+.star-pick h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--ink);margin-bottom:8px;}
+.star-pick p{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.75;margin-bottom:16px}
+.check-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.check-item{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink2);font-weight:400;}
+.check-item::before{content:'✔';color:var(--green);font-weight:700;font-size:13px;flex-shrink:0;}
+.perfect-for{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px}
+.pf-tag{background:var(--ochre-l);color:var(--ochre-d);font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px;}
+/* ── SERVICES ── */
+.services-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.service-item{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:16px 14px;display:flex;align-items:flex-start;gap:10px;}
+.service-icon{font-size:22px;flex-shrink:0}
+.service-label{font-size:13px;font-weight:500;color:var(--ink);line-height:1.3}
+/* ── SECRETS ── */
+.secrets-grid{display:flex;flex-direction:column;gap:14px}
+.secret-card{background:var(--white);border-radius:var(--r2);box-shadow:var(--sh);padding:20px;border-left:3px solid var(--ochre);position:relative;overflow:hidden;}
+.secret-card::after{content:'🤫';font-size:48px;position:absolute;right:12px;top:10px;opacity:.07;}
+.secret-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--ochre);margin-bottom:8px;}
+.secret-title{font-family:'Playfair Display',serif;font-size:18px;color:var(--ink);margin-bottom:6px}
+.secret-time{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:5px 14px;border-radius:8px;margin-bottom:10px;}
+.secret-desc{font-size:13.5px;color:var(--gray);font-weight:300;line-height:1.7}
+.secret-desc strong{color:var(--ink);font-weight:500}
+/* ── CTA ── */
+.cta-banner{background:var(--ink);border-radius:var(--r2);padding:32px 28px;text-align:center;margin-top:52px;}
+.cta-banner h2{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;color:#fff;margin-bottom:10px;}
+.cta-banner p{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:24px;max-width:380px;margin-left:auto;margin-right:auto;}
+.cta-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;font-size:14px;font-weight:600;letter-spacing:.02em;padding:14px 30px;border-radius:50px;text-decoration:none;transition:opacity .2s;}
+.cta-wa:hover{opacity:.9}
+.cta-guide-link{display:inline-block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.35);text-decoration:none;letter-spacing:.04em;transition:color .18s;}
+.cta-guide-link:hover{color:var(--ochre)}
+/* ── FOOTER ── */
+footer{background:var(--ink);color:rgba(255,255,255,.4);text-align:center;padding:40px 20px calc(32px + env(safe-area-inset-bottom));font-size:12.5px;}
+.ft-logo{font-family:'Playfair Display',serif;font-style:italic;font-size:26px;color:var(--ochre);margin-bottom:4px}
+.ft-tagline{font-size:11px;font-weight:300;letter-spacing:.05em;margin-bottom:20px}
+.ft-divider{width:36px;height:1px;background:rgba(255,255,255,.1);margin:0 auto 20px}
+.ft-links{display:flex;justify-content:center;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+.ft-links a{color:rgba(255,255,255,.3);text-decoration:none;font-size:11.5px;transition:color .18s}
+.ft-links a:hover{color:var(--ochre)}
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .hero{padding:0 0 48px}
+  .hero-inner{padding:0 20px}
+  .hero h1{font-size:38px;margin-bottom:12px}
+  .hero-sub{font-size:14px;margin-bottom:28px}
+  .hero-cta{font-size:14px;padding:14px 26px;width:100%;justify-content:center}
+  .hero-scroll{font-size:10px}
+  .nav-inner{padding:6px 12px;gap:4px}
+  .nav-btn{font-size:12px;padding:8px 12px;min-height:36px}
+  .main{padding:0 16px 64px}
+  .intro-box{margin:32px 0 0;padding:22px 18px;border-radius:16px}
+  .intro-box h2{font-size:20px}
+  .intro-box p{font-size:14px}
+  .mistake{font-size:13px;padding:11px 13px}
+  .gem{font-size:11.5px;padding:5px 11px}
+  .section{padding:36px 0 0;scroll-margin-top:52px}
+  .s-heading{font-size:22px}
+  .s-sub{font-size:13.5px;margin-bottom:20px}
+  .iti-period{padding:13px 18px}
+  .iti-period-label{font-size:15px}
+  .iti-item{padding:12px 18px;gap:10px}
+  .iti-dot{width:26px;height:26px;font-size:13px}
+  .iti-name{font-size:14px}
+  .iti-note{font-size:12px}
+  .day-header{padding:14px 18px}
+  .day-num{font-size:28px}
+  .day-title{font-size:14.5px}
+  .day-body{padding:14px 18px}
+  .day-body p{font-size:13px}
+  .hl{font-size:11px;padding:4px 10px}
+  .food-card-body{padding:16px 16px;gap:12px}
+  .food-rank{width:34px;height:34px;font-size:16px}
+  .food-name{font-size:16px}
+  .food-desc{font-size:12.5px;margin-bottom:7px}
+  .list-item{padding:13px 16px;gap:10px}
+  .list-icon{font-size:19px}
+  .list-name{font-size:14px}
+  .list-desc{font-size:12.5px}
+  .medal{width:26px;height:26px;font-size:14px}
+  .star-pick{padding:22px 18px}
+  .star-pick h3{font-size:19px}
+  .star-pick p{font-size:13px}
+  .check-item{font-size:13px}
+  .pf-tag{font-size:11.5px;padding:5px 12px}
+  .services-grid{gap:8px}
+  .service-item{padding:14px 12px;gap:8px;border-radius:10px}
+  .service-icon{font-size:20px}
+  .service-label{font-size:12.5px}
+  .secret-card{padding:18px 16px}
+  .secret-title{font-size:17px}
+  .secret-time{font-size:12.5px;padding:5px 12px}
+  .secret-desc{font-size:13px}
+  .cta-banner{padding:28px 20px;margin-top:40px;border-radius:16px}
+  .cta-banner h2{font-size:22px}
+  .cta-banner p{font-size:13px;margin-bottom:20px}
+  .cta-wa{font-size:14px;padding:14px 24px;width:100%;justify-content:center}
+  .cta-guide-link{font-size:12px;margin-top:12px}
+}
+
+/* ── MAP LINKS ── */
+a.food-where{text-decoration:none;cursor:pointer}
+a.food-where:hover{opacity:.85}
+.gmap-chip{
+  display:inline-flex;align-items:center;gap:3px;
+  color:var(--gray);font-size:11px;font-weight:500;
+  text-decoration:none;padding:2px 7px;border-radius:6px;
+  background:var(--gray-l);margin-left:6px;
+  transition:background .18s,color .18s;
+  vertical-align:middle;white-space:nowrap;flex-shrink:0;
+}
+.gmap-chip:hover{background:var(--ochre-l);color:var(--ochre-d)}
+
+/* ── OFFLINE BANNER ── */
+.offline-banner{
+  position:fixed;bottom:max(16px, env(safe-area-inset-bottom));
+  left:16px;right:16px;z-index:500;
+  background:var(--ink);color:#fff;
+  border-radius:16px;padding:16px 18px;
+  box-shadow:0 4px 24px rgba(0,0,0,.35);
+  display:flex;gap:12px;align-items:flex-start;
+  animation:slideUp .35s cubic-bezier(.22,1,.36,1);
+  max-width:500px;margin:0 auto;
+}
+.offline-banner.hidden{display:none}
+@keyframes slideUp{from{transform:translateY(100px);opacity:0}to{transform:none;opacity:1}}
+.ob-icon{font-size:24px;flex-shrink:0;margin-top:1px}
+.ob-body{flex:1}
+.ob-title{font-size:13px;font-weight:600;margin-bottom:4px;color:#fff}
+.ob-text{font-size:12px;font-weight:300;color:rgba(255,255,255,.6);line-height:1.55}
+.ob-text strong{color:rgba(255,255,255,.9);font-weight:500}
+.ob-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ob-dismiss{
+  background:rgba(255,255,255,.12);color:#fff;border:none;
+  font-size:12px;font-weight:500;padding:7px 14px;border-radius:8px;
+  cursor:pointer;font-family:inherit;transition:background .18s;
+}
+.ob-dismiss:hover{background:rgba(255,255,255,.2)}
+.ob-cached{
+  background:var(--ochre);color:#fff;border:none;
+  font-size:12px;font-weight:600;padding:7px 14px;border-radius:8px;
+  cursor:pointer;font-family:inherit;display:none;transition:background .18s;
+}
+.ob-cached.show{display:block}
+.ob-cached:hover{opacity:.88}
+
+
+/* ── NAV LANG SWITCHER ── */
+.nav-wrap{display:flex;align-items:stretch}
+.nav-inner{flex:1;min-width:0}
+.nav-lang{
+  display:flex;align-items:center;gap:1px;
+  padding:6px 10px 6px 8px;
+  border-left:1px solid var(--gray-m);
+  flex-shrink:0;
+}
+.nl-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:6px;
+  font-size:17px;text-decoration:none;
+  transition:background .18s;opacity:.5;
+  flex-shrink:0;
+}
+.nl-btn:hover{background:var(--gray-l);opacity:1}
+.nl-btn.active{background:var(--gray-l);opacity:1}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- OFFLINE BANNER -->
+<div id="offlineBanner" class="offline-banner hidden">
+  <div class="ob-icon">📲</div>
+  <div class="ob-body">
+    <div class="ob-title">Sauvegarder hors connexion</div>
+    <div class="ob-text">Ce guide fonctionne sans internet. Appuyez sur <strong>Partager → Sur l'écran d'accueil</strong> (iOS) ou <strong>Installer l'app</strong> (Android).</div>
+    <div class="ob-actions">
+      <button class="ob-dismiss" id="obDismiss">Compris</button>
+      <button class="ob-cached" id="obCached">✓ Sauvegardé hors connexion</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <a class="lang-link" href="insider.html">🇬🇧 English</a>
+  <span class="lang-sep">·</span>
+  <a class="lang-link active" href="insider-fr.html">🇫🇷 Français</a>
+  <span class="lang-sep">·</span>
+  <a class="lang-link" href="insider-ko.html">🇰🇷 한국어</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Sélectionné par des locaux · Class6 · 2026</div>
+    <h1>Guide <em>Insider</em><br>Hội An</h1>
+    <p class="hero-sub">Les endroits que les touristes ratent. Le bon timing. L'expérience dont vous vous souviendrez.</p>
+    <a class="hero-cta" href="#start">Commencer →</a>
+    <span class="hero-scroll">↓ Défiler pour explorer</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="navTo('start',this)">📖 Commencer</button>
+    <button class="nav-btn" onclick="navTo('24h',this)">⏳ 24 Heures</button>
+    <button class="nav-btn" onclick="navTo('3days',this)">📅 3 Jours</button>
+    <button class="nav-btn" onclick="navTo('food',this)">🍜 Cuisine</button>
+    <button class="nav-btn" onclick="navTo('cafes',this)">☕ Cafés</button>
+    <button class="nav-btn" onclick="navTo('sunset',this)">🌅 Coucher de soleil</button>
+    <button class="nav-btn" onclick="navTo('experiences',this)">✨ Incontournables</button>
+    <button class="nav-btn" onclick="navTo('secrets',this)">🤫 Secrets</button>
+  </div>
+  <div class="nav-lang">
+    <a class="nl-btn" href="insider.html" title="🇬🇧">🇬🇧</a>
+    <a class="nl-btn active" href="insider-fr.html" title="🇫🇷">🇫🇷</a>
+    <a class="nl-btn" href="insider-ko.html" title="🇰🇷">🇰🇷</a>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- INTRO -->
+  <div id="start" class="intro-box" style="scroll-margin-top:56px">
+    <div class="intro-eyebrow">Avant de Commencer</div>
+    <h2>Première fois à Hội An ?</h2>
+    <p>La plupart des visiteurs font la même erreur — et repartent sans avoir vu le vrai Hội An.</p>
+    <div class="mistake-row">
+      <div class="mistake bad">
+        <div class="mistake-icon">❌</div>
+        <div>Passer toute la journée dans la Vieille Ville</div>
+      </div>
+      <div class="mistake good">
+        <div class="mistake-icon">✓</div>
+        <div>La vraie magie de Hội An se trouve en réalité…</div>
+      </div>
+    </div>
+    <div class="gems">
+      <span class="gem">🌅 Marchés du matin</span>
+      <span class="gem">☕ Cafés cachés</span>
+      <span class="gem">🌾 Rizières</span>
+      <span class="gem">🥥 Forêts de cocotiers</span>
+      <span class="gem">🍜 Stands locaux</span>
+      <span class="gem">🌇 Couchers de soleil</span>
+    </div>
+    <p style="margin-top:20px;font-size:14px;color:var(--ink2);font-weight:300">Ce guide vous aidera à vivre Hội An comme un local.</p>
+  </div>
+
+  <!-- 24H -->
+  <div id="24h" class="section">
+    <div class="s-eyebrow">Visite Rapide</div>
+    <div class="s-heading">⏳ Si Vous N'avez Que 24 Heures</div>
+    <div class="s-sub">La journée parfaite — du premier café à la dernière lanterne.</div>
+    <div class="iti-card">
+      <div class="iti-period">
+        <div class="iti-period-icon">🌤</div>
+        <div class="iti-period-label">Matin</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">☕</div>
+          <div class="iti-text">
+            <div class="iti-name">Sunny Coffee Corner<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Sunny+Coffee+Corner+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">Calme, local, plein de plantes — rien de touristique</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🚲</div>
+          <div class="iti-text">
+            <div class="iti-name">Vélo dans les rizières</div>
+            <div class="iti-note">Idéal avant 9h, quand la lumière est douce et les routes désertes</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🥬</div>
+          <div class="iti-text">
+            <div class="iti-name">Village maraîcher de Trà Quế<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Tra+Que+Vegetable+Village+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">Marcher entre les rangées, observer les agriculteurs au travail</div>
+          </div>
+        </div>
+      </div>
+      <hr class="iti-divider">
+      <div class="iti-period" style="background:var(--ochre-d)">
+        <div class="iti-period-icon">☀️</div>
+        <div class="iti-period-label">Déjeuner</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">🍜</div>
+          <div class="iti-text">
+            <div class="iti-name">Cao Lầu Thanh<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Quan+Cao+Lau+Thanh+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">Le plat emblématique de Hội An — introuvable ailleurs</div>
+          </div>
+        </div>
+      </div>
+      <hr class="iti-divider">
+      <div class="iti-period" style="background:var(--green)">
+        <div class="iti-period-icon">🏖</div>
+        <div class="iti-period-label">Après-midi</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">🏖</div>
+          <div class="iti-text">
+            <div class="iti-name">Plage An Bàng<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">Arrivez vers 16h — frais, peu fréquenté, l'heure dorée approche</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🍹</div>
+          <div class="iti-text">
+            <div class="iti-name">Coucher de soleil au Seascape<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Seascape+An+Bang+Hoi+An+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">Cocktails sur le sable tandis que le soleil plonge dans la mer</div>
+          </div>
+        </div>
+      </div>
+      <hr class="iti-divider">
+      <div class="iti-period" style="background:#1A1018">
+        <div class="iti-period-icon">🏮</div>
+        <div class="iti-period-label">Soirée</div>
+      </div>
+      <div class="iti-items">
+        <div class="iti-item">
+          <div class="iti-dot">🏮</div>
+          <div class="iti-text">
+            <div class="iti-name">Vieille Ville à la lueur des lanternes<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Ancient+Town" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">Après 19h les rues brillent — une atmosphère complètement différente</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🚣</div>
+          <div class="iti-text">
+            <div class="iti-name">Bateau-lanterne sur la rivière Hoài</div>
+            <div class="iti-note">Flottez une lanterne de lotus pour la chance — un rituel de Hội An</div>
+          </div>
+        </div>
+        <div class="iti-item">
+          <div class="iti-dot">🎭</div>
+          <div class="iti-text">
+            <div class="iti-name">Memories Show<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Memories+Show+Island" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+            <div class="iti-note">500+ artistes, lumières spectaculaires — réservez à l'avance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 DAYS -->
+  <div id="3days" class="section">
+    <div class="s-eyebrow">Expérience Complète</div>
+    <div class="s-heading">📅 Si Vous Avez 3 Jours</div>
+    <div class="s-sub">Le bon rythme — chaque jour enrichit le précédent.</div>
+    <div class="days-grid">
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-num">1</div>
+          <div>
+            <div class="day-title">Vieille Ville + Tour Gastronomique</div>
+            <div class="day-sub">Repérez-vous, goûtez à tout</div>
+          </div>
+        </div>
+        <div class="day-body">
+          <p>Démarrez à 6h30 — la Vieille Ville est presque vide. Promenez-vous sur le Pont Japonais, photographiez les murs jaunes, trouvez le marché du matin. À 9h vous ressentirez la ville avant l'arrivée des foules.</p>
+          <p>Après-midi : suivez le circuit gastronomique dans l'Old Town. Bánh mì chez Phượng, Cao Lầu chez Thanh, finissez avec une soupe au sésame noir au Xi Ma Phụ.</p>
+          <p>Soirée : bateau-lanterne sur la rivière, puis une promenade lente alors que les rues s'illuminent.</p>
+          <div class="day-highlights">
+            <span class="hl">🏮 Pont Japonais 6h30</span>
+            <span class="hl">🍜 Cao Lầu Thanh</span>
+            <span class="hl">🥖 Bánh Mì Phượng</span>
+            <span class="hl">🚣 Bateau-lanterne</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-num">2</div>
+          <div>
+            <div class="day-title">Plage + Forêt de Cocotiers + Cours de Cuisine</div>
+            <div class="day-sub">Le meilleur de la campagne de Hội An</div>
+          </div>
+        </div>
+        <div class="day-body">
+          <p>Cours de cuisine matinal chez Cocolocal — visite du marché, cueillette à la ferme, cuisine pratique. Terminé à midi avec un repas complet et de nouvelles compétences.</p>
+          <p>Après-midi : balade en barque à travers les palétuviers, puis direction An Bàng pour la plage. Restez pour les cocktails au coucher du soleil chez Seascape.</p>
+          <div class="day-highlights">
+            <span class="hl">🍳 Cocolocal Cooking Class</span>
+            <span class="hl">🥥 Barque cocotiers</span>
+            <span class="hl">🏖 Plage An Bàng</span>
+            <span class="hl">🌅 Cocktails coucher de soleil</span>
+          </div>
+        </div>
+      </div>
+      <div class="day-card">
+        <div class="day-header">
+          <div class="day-num">3</div>
+          <div>
+            <div class="day-title">Sanctuaire My Sơn ou Île Cham</div>
+            <div class="day-sub">Choisissez-en un — les deux occupent une journée entière</div>
+          </div>
+        </div>
+        <div class="day-body">
+          <p><strong style="color:var(--ink)">My Sơn :</strong> Anciens temples hindous du Royaume Cham, cachés dans la jungle. À environ 1h de Hội An. Partez tôt pour profiter de la lumière du lever de soleil sur les ruines.</p>
+          <p><strong style="color:var(--ink)">Île Cham :</strong> Eaux cristallines, récifs coralliens, snorkeling, déjeuner fruits de mer frais sur l'île. Excursion d'une journée — idéale par temps ensoleillé et calme.</p>
+          <div class="day-highlights">
+            <span class="hl">🏛 My Sơn — temples jungle</span>
+            <span class="hl">🏝 Île Cham — récifs coralliens</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD -->
+  <div id="food" class="section">
+    <div class="s-eyebrow">Manger Comme un Local</div>
+    <div class="s-heading">🍜 Les 5 Plats à Absolument Goûter</div>
+    <div class="s-sub">Beaucoup de visiteurs repartent de Hội An sans avoir goûté ses plats emblématiques. Ne faites pas cette erreur.</div>
+    <div class="food-grid">
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">1</div>
+          <div class="food-info">
+            <div class="food-name">Cao Lầu</div>
+            <div class="food-desc">Grosses nouilles élastiques, porc char siu, craquelins croustillants et herbes fraîches. Préparé avec l'eau d'un puits local spécifique — la recette ne voyage pas.</div>
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">
+              <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Quan+Cao+Lau+Thanh+Hoi+An" target="_blank">📍 Cao Lầu Thanh</a>
+              <span class="food-unique">Uniquement à Hội An</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">2</div>
+          <div class="food-info">
+            <div class="food-name">Bánh Bao Vạc — Roses Blanches</div>
+            <div class="food-desc">Délicates ravioles de papier de riz en forme de roses blanches, garnies de crevettes. Douces, subtiles, magnifiques.</div>
+            <span class="food-unique">Spécialité de Hội An</span>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">3</div>
+          <div class="food-info">
+            <div class="food-name">Bánh Mì</div>
+            <div class="food-desc">La version de Hội An est différente — baguette croustillante, garnitures généreuses, la sauce maison inimitable. Anthony Bourdain l'a appelé le meilleur du monde.</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px">
+              <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Banh+Mi+Phuong+2B+Phan+Chau+Trinh+Hoi+An" target="_blank">📍 Bánh Mì Phượng</a>
+              <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Madam+Khanh+Banh+Mi+Queen+Hoi+An" target="_blank">📍 Madam Khánh</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">4</div>
+          <div class="food-info">
+            <div class="food-name">Soupe Sucrée au Sésame Noir</div>
+            <div class="food-desc">Riche, lisse, légèrement herbacé — un dessert traditionnel de Hội An que la plupart des touristes dépassent sans savoir qu'il existe.</div>
+            <a class="food-where" href="https://www.google.com/maps/search/?api=1&query=Che+Xi+Ma+Phu+black+sesame+Hoi+An" target="_blank">📍 Xí Mà Phụ</a>
+          </div>
+        </div>
+      </div>
+      <div class="food-card">
+        <div class="food-card-body">
+          <div class="food-rank">5</div>
+          <div class="food-info">
+            <div class="food-name">Cơm Gà — Riz au Poulet</div>
+            <div class="food-desc">Un classique local constamment ignoré par les touristes. Riz jaune au curcuma, poulet effiloché, herbes fraîches et sauce à tremper. Simple, parfait.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAFES -->
+  <div id="cafes" class="section">
+    <div class="s-eyebrow">Où S'asseoir</div>
+    <div class="s-heading">☕ Des Cafés Qui Valent le Détour</div>
+    <div class="s-sub">Les meilleures expériences café de Hội An se trouvent en dehors du centre touristique.</div>
+    <div class="list-card">
+      <div class="list-item">
+        <div class="list-icon">☕</div>
+        <div class="list-info">
+          <div class="list-name">Sunny Coffee Corner<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Sunny+Coffee+Corner+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">Pour les amateurs de café. Calme, plein de plantes, local. Essayez le café à l'œuf vietnamien — crème de jaune d'œuf sur un café fort.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">🌿</div>
+        <div class="list-info">
+          <div class="list-name">Rao Café<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Rao+Cafe+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">Pour les amoureux des jardins. Niché dans un paisible potager en périphérie. Mélanges pandan-coco, énergie matinale douce.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="list-icon">🌾</div>
+        <div class="list-info">
+          <div class="list-name">Coffee Xóm Chiêu<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Coffee+Xom+Chieu+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">Pour les vues sur les rizières. Café champêtre avec sièges dans un jardin ventilé. Meilleure halte vélo de la région.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUNSET -->
+  <div id="sunset" class="section">
+    <div class="s-eyebrow">En Fin de Journée</div>
+    <div class="s-heading">🌅 Meilleurs Spots pour le Coucher de Soleil</div>
+    <div class="s-sub">Classement. La différence entre eux est réelle.</div>
+    <div class="list-card">
+      <div class="list-item">
+        <div class="medal medal-1">🥇</div>
+        <div class="list-info">
+          <div class="list-name">Seascape An Bàng<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Seascape+An+Bang+Hoi+An+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">Restaurant en bord de mer et cocktails avec transats gratuits. Le meilleur coucher de soleil cocktail-en-main de Hội An.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="medal medal-2">🥈</div>
+        <div class="list-info">
+          <div class="list-name">Plage An Bàng<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">Simple et magnifique. Marchez le long du rivage, regardez les bateaux de pêche rentrer. Sans ticket.</div>
+        </div>
+      </div>
+      <div class="list-item">
+        <div class="medal medal-3">🥉</div>
+        <div class="list-info">
+          <div class="list-name">Rooftop Moments<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Moments+Hoi+An+Cafe+Rooftop" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div>
+          <div class="list-desc">Vues sur la Vieille Ville d'en haut, bougainvillées au premier plan, lanternes s'allumant en dessous.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCES -->
+  <div id="experiences" class="section">
+    <div class="s-eyebrow">Sélection Personnalisée</div>
+    <div class="s-heading">✨ Meilleures Expériences</div>
+    <div style="margin-bottom:28px">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;color:var(--ink);margin-bottom:14px">👨‍👩‍👧 Pour les Familles avec Enfants</div>
+      <div class="list-card">
+        <div class="list-item"><div class="list-icon">🥥</div><div class="list-info"><div class="list-name">Balade en Barque Cocotier</div><div class="list-desc">Barques rondes tournoyant avec un guide local dans les palétuviers — les enfants adorent.</div></div></div>
+        <div class="list-item"><div class="list-icon">🍳</div><div class="list-info"><div class="list-name">Cours de Cuisine</div><div class="list-desc">Pratique, amusant, et se termine par un repas partagé ensemble.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏺</div><div class="list-info"><div class="list-name">Village de Poterie de Thanh Hà<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Thanh+Ha+Pottery+Village+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Essayez de tourner un pot — vraiment amusant pour tous les âges.</div></div></div>
+        <div class="list-item"><div class="list-icon">🎭</div><div class="list-info"><div class="list-name">Memories Show<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Memories+Show+Island" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Spectaculaire et facile à suivre — aucune langue requise.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏖</div><div class="list-info"><div class="list-name">Plage An Bàng<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Propre, peu profonde, avec des restaurants pour quiconque a besoin d'un snack toutes les 20 minutes.</div></div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:28px">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;color:var(--ink);margin-bottom:14px">❤️ Pour les Couples</div>
+      <div class="list-card">
+        <div class="list-item"><div class="list-icon">🌅</div><div class="list-info"><div class="list-name">Dîner au coucher du soleil sur la plage<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Seascape+An+Bang+Hoi+An+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Seascape ou Soul Kitchen — lumière douce, cocktails, vagues en fond sonore.</div></div></div>
+        <div class="list-item"><div class="list-icon">🚣</div><div class="list-info"><div class="list-name">Balade en bateau-lanterne</div><div class="list-desc">Flottez une lanterne sur la rivière au crépuscule. Vraiment romantique.</div></div></div>
+        <div class="list-item"><div class="list-icon">🍷</div><div class="list-info"><div class="list-name">Dîner au bord de la rivière<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Morning+Glory+Signature+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Morning Glory Signature — table en balcon, vue rivière, cuisine vietnamienne raffinée.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏝</div><div class="list-info"><div class="list-name">Excursion à l'Île Cham<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Cu+Lao+Cham+Island+Vietnam" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Une escapade privée — snorkeling, baignade, déjeuner fruits de mer frais sur l'île.</div></div></div>
+      </div>
+    </div>
+    <div style="margin-bottom:28px">
+      <div style="font-family:'Playfair Display',serif;font-size:17px;color:var(--ink);margin-bottom:14px">📸 Les Spots les Plus Instagrammables</div>
+      <div class="list-card">
+        <div class="list-item"><div class="list-icon">🌉</div><div class="list-info"><div class="list-name">Pont Japonais<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Japanese+Covered+Bridge+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">6h30–7h pour les rues vides et la lumière dorée douce.</div></div></div>
+        <div class="list-item"><div class="list-icon">🟡</div><div class="list-info"><div class="list-name">Murs Jaunes — Vieille Ville<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Hoi+An+Ancient+Town" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">N'importe quelle ruelle étroite partant de Trần Phú. Le matin est idéal.</div></div></div>
+        <div class="list-item"><div class="list-icon">🏖</div><div class="list-info"><div class="list-name">Plage An Bàng<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=An+Bang+Beach+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Lever de soleil ou heure dorée — les couleurs sont irréelles.</div></div></div>
+        <div class="list-item"><div class="list-icon">🌾</div><div class="list-info"><div class="list-name">Champs de Trà Quế<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Tra+Que+Vegetable+Village+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Brume matinale sur les rangs de légumes — sortez tôt à vélo.</div></div></div>
+        <div class="list-item"><div class="list-icon">🌿</div><div class="list-info"><div class="list-name">Rao Café<a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Rao+Cafe+Hoi+An" target="_blank" onclick="event.stopPropagation()">🗺 Map</a></div><div class="list-desc">Table de jardin, lumière filtrée, boisson pandan en main.</div></div></div>
+        <div class="list-item"><div class="list-icon">🥥</div><div class="list-info"><div class="list-name">Forêt de Cocotiers</div><div class="list-desc">Barque sur l'eau réfléchissante — magique pour les photos.</div></div></div>
+      </div>
+    </div>
+    <div class="star-pick">
+      <div class="s-eyebrow" style="margin-bottom:10px">Notre Recommandation N°1</div>
+      <h3>Cocolocal Farm Cooking Class <a class="gmap-chip" href="https://www.google.com/maps/search/?api=1&query=Cocolocal+Farm+Cooking+Class+Hoi+An" target="_blank">🗺 Map</a></h3>
+      <p>Si nous ne pouvions recommander qu'UNE activité à Hội An, ce serait celle-ci. Pas seulement un cours de cuisine — une matinée au cœur de la vie d'une famille locale.</p>
+      <div class="check-list">
+        <div class="check-item">Visite du marché avec un guide local</div>
+        <div class="check-item">Cueillette d'ingrédients frais à la ferme</div>
+        <div class="check-item">Bateau dans le village des cocotiers</div>
+        <div class="check-item">Cuisine pratique avec une vraie famille</div>
+        <div class="check-item">Manger ce que vous avez préparé — ensemble</div>
+      </div>
+      <div style="font-size:12.5px;color:var(--gray);margin-bottom:14px;font-weight:300">Idéal pour :</div>
+      <div class="perfect-for">
+        <span class="pf-tag">Les couples</span>
+        <span class="pf-tag">Les familles</span>
+        <span class="pf-tag">Les gastronomes</span>
+        <span class="pf-tag">Voyageurs solo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="section">
+    <div class="s-eyebrow">Nous Pouvons Vous Aider</div>
+    <div class="s-heading">🚗 Besoin d'Organisation ?</div>
+    <div class="s-sub">Envoyez-nous simplement un WhatsApp — nous nous occupons du reste.</div>
+    <div class="services-grid">
+      <div class="service-item"><div class="service-icon">✈️</div><div class="service-label">Transferts Aéroport</div></div>
+      <div class="service-item"><div class="service-icon">🚗</div><div class="service-label">Chauffeurs Privés</div></div>
+      <div class="service-item"><div class="service-icon">🏝</div><div class="service-label">Excursions Île Cham</div></div>
+      <div class="service-item"><div class="service-icon">🥥</div><div class="service-label">Tours Forêt Cocotiers</div></div>
+      <div class="service-item"><div class="service-icon">🍳</div><div class="service-label">Cours de Cuisine</div></div>
+      <div class="service-item"><div class="service-icon">👨‍🍳</div><div class="service-label">Chef Privé</div></div>
+      <div class="service-item"><div class="service-icon">💆</div><div class="service-label">Soins Spa</div></div>
+      <div class="service-item"><div class="service-icon">✂️</div><div class="service-label">Rendez-vous Tailleur</div></div>
+    </div>
+  </div>
+
+  <!-- SECRETS -->
+  <div id="secrets" class="section">
+    <div class="s-eyebrow">De Nous à Vous</div>
+    <div class="s-heading">🤫 Secrets de Locaux</div>
+    <div class="s-sub">Ce que nous disons aux hôtes à leur arrivée — introuvable nulle part ailleurs.</div>
+    <div class="secrets-grid">
+      <div class="secret-card">
+        <div class="secret-label">Vieille Ville</div>
+        <div class="secret-title">Meilleur moment pour se promener</div>
+        <div class="secret-time">⏰ 6h00 – 8h00</div>
+        <div class="secret-desc">Rues presque vides. Temps frais. Les meilleures photos. À 9h les groupes arrivent et la magie disparaît. <strong>Réglez votre réveil.</strong></div>
+      </div>
+      <div class="secret-card">
+        <div class="secret-label">Plage An Bàng</div>
+        <div class="secret-title">Meilleur moment pour la plage</div>
+        <div class="secret-time">🌅 16h00 – 18h00</div>
+        <div class="secret-desc">Évitez la chaleur de midi. La lumière de 16h est parfaite pour les photos, la brise se lève, et la fenêtre cocktail s'ouvre à 17h précises.</div>
+      </div>
+      <div class="secret-card">
+        <div class="secret-label">Shopping</div>
+        <div class="secret-title">Conseil tailleur</div>
+        <div class="secret-desc">Visitez votre tailleur le <strong>Jour 1</strong>, pas le dernier jour. Il vous faudra 48–72h pour les essayages avant le départ. Apportez des photos de référence. <strong>Demandez-nous un coupon.</strong></div>
+      </div>
+      <div class="secret-card">
+        <div class="secret-label">Café</div>
+        <div class="secret-title">Le café à l'œuf est incontournable</div>
+        <div class="secret-desc">Café vietnamien à l'œuf — riche crème de jaune d'œuf sur un café fort. Nom étrange, goût inoubliable. Notre spot préféré : <strong>📍 Rao Café</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-banner">
+    <h2>Nous sommes disponibles toute la journée.</h2>
+    <p>Questions, recommandations, réservations — envoyez-nous un message à tout moment. Nous répondons rapidement.</p>
+    <a class="cta-wa" href="https://wa.me/84904885502">
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+      WhatsApp · +84 904 885 502
+    </a>
+    <br>
+    <a class="cta-guide-link" href="index.html">Répertoire complet avec cartes → Restaurants, Cafés, Activités &amp; Villas</a>
+  </div>
+
+</div><!-- /main -->
+
+<footer>
+  <div class="ft-logo">Class6</div>
+  <div class="ft-tagline">Gestion de Villas Privées · Hội An &amp; Đà Nẵng</div>
+  <div class="ft-divider"></div>
+  <div class="ft-links">
+    <a href="https://villaclass6.netlify.app/">Site Web</a>
+    <a href="index.html">Guide Complet</a>
+    <a href="https://wa.me/84904885502">WhatsApp</a>
+    <a href="https://www.airbnb.com.vn/s/guidebooks?refinement_paths%5B%5D=%2Fguidebooks%2F6754607">Guide Airbnb</a>
+  </div>
+  <div style="font-size:10.5px;color:rgba(255,255,255,.15);letter-spacing:.06em;text-transform:uppercase">Guide Insider Hội An 2026 · Class6</div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+function navTo(id, btn) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+const ids = ['start','24h','3days','food','cafes','sunset','experiences','secrets'];
+const btns = document.querySelectorAll('.nav-btn');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const i = ids.indexOf(e.target.id);
+      if (i > -1) btns.forEach((b, j) => b.classList.toggle('active', i === j));
+    }
+  });
+}, { rootMargin: '-25% 0px -65% 0px' });
+ids.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .then(reg => {
+        // When a new SW is waiting, refresh to get latest
+        reg.addEventListener('updatefound', () => {
+          const sw = reg.installing;
+          sw.addEventListener('statechange', () => {
+            if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+              sw.postMessage({ type: 'SKIP_WAITING' });
+              window.location.reload();
+            }
+          });
+        });
+      });
+  });
+}
+</script>
+<script>
+(function(){
+  const KEY = 'ob_dismissed_v1';
+  if (localStorage.getItem(KEY)) return;
+
+  const banner = document.getElementById('offlineBanner');
+  if (!banner) return;
+  banner.classList.remove('hidden');
+
+  document.getElementById('obDismiss').addEventListener('click', () => {
+    banner.classList.add('hidden');
+    localStorage.setItem(KEY, '1');
+  });
+
+  // Show "Saved!" once SW has cached pages
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then(() => {
+      const btn = document.getElementById('obCached');
+      if (btn) btn.classList.add('show');
+    });
+  }
+})();
+</script>
+</body>
+</html>
